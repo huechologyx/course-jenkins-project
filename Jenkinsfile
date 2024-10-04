@@ -34,7 +34,7 @@ pipeline {
             }
 
             steps {
-                sh "sam deploy -t sam-app/template.yaml --no-confirm-changeset --no-fail-on-empty=changeset"
+                sh "sam deploy -t sam-app/template.yaml --no-confirm-changeset --no-fail-on-empty-changeset"
             }
         }
     }
