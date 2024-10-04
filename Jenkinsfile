@@ -5,14 +5,14 @@ pipeline {
 
         stage('Setup') {
             steps {
-                sh 'pip3 install -r sam-app/test/requirements.txt'
+                sh "pip3 install -r sam-app/tests/requirements.txt"
             }
         }
 
 
         stage('Test') {
             steps {
-                sh 'pytest'
+                sh "pytest"
             }
         }
 
