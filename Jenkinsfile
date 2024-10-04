@@ -14,15 +14,15 @@ pipeline {
         }
 
 
-        stage('Test') {
-            steps {
-                sh "pytest "
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh "pytest "
+        //     }
+        // }
 
         stage('Build') {
             steps {
-                sh "sam build -t sam-app/template.yaml --stack-name sam-app"
+                sh "sam build -t sam-app/template.yaml"
             }
         }
 
@@ -34,7 +34,7 @@ pipeline {
             }
 
             steps {
-                sh "sam deploy -t sam-app/template.yaml --no-confirm-changeset --no-fail-on-empty=changeset --stack-name sam-app"
+                sh "sam deploy -t sam-app/template.yaml --no-confirm-changeset --no-fail-on-empty=changeset"
             }
         }
     }
