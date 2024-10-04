@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_SAM_STACK_NAME = "sam-app"
+    }
+
     stages {
 
         stage('Setup') {
