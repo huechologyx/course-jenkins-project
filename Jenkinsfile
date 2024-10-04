@@ -1,33 +1,37 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'ENVIRONMENT', defaultValue: 'dev', description: 'Specify the environment for deployment')
-        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: "Run Tests in pipeline")
-    
-    }
-
 
     stages {
 
-
-        stage('test') {
-            when {
-                expression {
-                    params.RUN_TESTS == true
-                }
-            }
+        stage('Setup') {
             steps {
-                echo "testing application"
+                sh 'pip3 install -r sam-app/test/requirements.txt'
             }
         }
-        stage('Deploy') {
-            steps {
-                echo "deploying to ${params.ENVIRONMENT} environment"
-                
-            }
-        }    
 
-        
-            
+
+        stage('Test') {
+            steps {
+                sh 'pytest'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh "sam build -t sam-app/template.yaml"
+            }
+        }
+
+        stage('Deploy') {
+
+            environment {
+                AWS_ACCESS_KEY_ID = credentials('aws-access-key')
+                AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+            }
+
+            steps {
+                sh "sam deploy -t sam-app/template.yaml --no-confirm-changeset --no-fail-on-empty=changeset"
+            }
+        }
     }
 }
