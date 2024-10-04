@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_SAM_STACK_NAME = "sam-app"
+        AWS_SAM_STACK_NAME = 'sam-app'
     }
 
     stages {
